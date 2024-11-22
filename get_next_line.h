@@ -15,4 +15,23 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
+void	dealloc(t_list **list, t_list *new_node, char *buffer);
+
+char	*get_next_line(int fd);
+
+void	creat_list(t_list **list, int fd);
+
+void	append(t_list **list, char *buffer);
+
+char	*get_line(t_list *list);
+
+int	newline(t_list *list);
+
+t_list	*find_node(t_list *list);
+
+void	polish_list(t_list **list);
+
+void	cpy_line(t_list *list, char *newline);
+
+int	count_newline(t_list *list);
 #endif

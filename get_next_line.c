@@ -25,6 +25,8 @@ void	append(t_list **list, char *buffer)
 	new_node = malloc(sizeof(t_list));
 	if (new_node == NULL)
 		return ;
+	if (last_node == NULL)
+		*list = new_node;
 	else
 		last_node->next = new_node;
 	last_node->str_buf = buffer;
@@ -58,7 +60,7 @@ char	*get_next_line(int fd)
 	char			*newline;
 
 	list = NULL;
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &get_next_line, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &get_next_line, 0) < 0)// if file or the buffer bigger than 0 and we have the permision to open
 		return (NULL);
 	creat_list(&list, fd);
 	if (list == NULL)
@@ -66,4 +68,15 @@ char	*get_next_line(int fd)
 	newline = get_line(list);
 	polish_list(&list);
 	return (newline);
+}
+int	manin(void)
+{
+	int	fd;
+	int	lines;
+	char	*newline;
+
+	lines = 1;
+	fd = open("test.txt", O_RDONLY);
+	while (get_next_line(fd))
+		printf("%d -->  %s \n", lines++, newline);
 }
