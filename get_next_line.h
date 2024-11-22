@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jpflegha <jpflegha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/22 17:29:43 by jpflegha          #+#    #+#             */
+/*   Updated: 2024/11/22 18:17:46 by jpflegha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
@@ -23,15 +35,16 @@ void	creat_list(t_list **list, int fd);
 
 void	append(t_list **list, char *buffer);
 
-char	*get_line(t_list *list);
+char	*get_newline(t_list *list);
 
-int	newline(t_list *list);
+int		newline(t_list *list);
 
 t_list	*find_node(t_list *list);
 
 void	polish_list(t_list **list);
 
-void	cpy_line(t_list *list, char *newline);
+void	copy_line(t_list *list, char *newline);
 
-int	count_newline(t_list *list);
+int		count_newline(t_list *list);
+
 #endif

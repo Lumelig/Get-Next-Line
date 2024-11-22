@@ -1,6 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jpflegha <jpflegha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/22 17:29:32 by jpflegha          #+#    #+#             */
+/*   Updated: 2024/11/22 19:12:03 by jpflegha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
-char	*get_line(t_list *list)
+t_list	*find_node(t_list *list)
+{
+	if (list == NULL)
+		return (NULL);
+	while (list->next)
+		list = list->next;
+	return (list);
+}
+
+char	*get_newline(t_list *list)
 {
 	int		len;
 	char	*newline;
@@ -8,11 +29,11 @@ char	*get_line(t_list *list)
 	len = 0;
 	if (list == NULL)
 		return (NULL);
-	len = count_to_newline(list);
+	len = count_newline(list);
 	newline = malloc(len + 1);
-	if (newline = NULL)
+	if (newline == NULL)
 		return (NULL);
-	copy_line(newline);
+	copy_line(list, newline);
 	return (newline);
 }
 
@@ -36,22 +57,22 @@ void	append(t_list **list, char *buffer)
 void	creat_list(t_list **list, int fd)
 {
 	int		chars;
-	char	*buffer
+	char	*buffer;
 
 	while (!newline(*list))
 	{
 		buffer = malloc(BUFFER_SIZE + 1);
 		if (buffer == NULL)
 			return ;
+		chars = read(fd, buffer, BUFFER_SIZE);
+		if (!chars)
+		{
+			free(buffer);
+			return ;
+		}
+		buffer[chars] = '\0';
+		append(list, buffer);
 	}
-	chars = read(fd, buffer, BUFFER_SIZE);
-	if (!chars)
-	{
-		free(buffer);
-		return ;
-	}
-	buffer[chars] = '\0';
-	append(list, buffer);
 }
 
 char	*get_next_line(int fd)
@@ -60,23 +81,25 @@ char	*get_next_line(int fd)
 	char			*newline;
 
 	list = NULL;
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &get_next_line, 0) < 0)// if file or the buffer bigger than 0 and we have the permision to open
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &get_next_line, 0) < 0)
 		return (NULL);
 	creat_list(&list, fd);
 	if (list == NULL)
 		return (NULL);
-	newline = get_line(list);
+	newline = get_newline(list);
 	polish_list(&list);
 	return (newline);
 }
-int	manin(void)
+
+int	main()
 {
-	int	fd;
-	int	lines;
+	int		fd;
+	int		lines;
 	char	*newline;
 
 	lines = 1;
 	fd = open("test.txt", O_RDONLY);
 	while (get_next_line(fd))
 		printf("%d -->  %s \n", lines++, newline);
+	return (0);
 }

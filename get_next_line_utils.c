@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jpflegha <jpflegha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/22 17:29:20 by jpflegha          #+#    #+#             */
+/*   Updated: 2024/11/22 18:35:28 by jpflegha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
 int	count_newline(t_list *list)
@@ -7,7 +19,7 @@ int	count_newline(t_list *list)
 
 	len = 0;
 	if (list == NULL)
-		return (NULL);
+		return (0);
 	while (list)
 	{
 		i = 0;
@@ -22,29 +34,29 @@ int	count_newline(t_list *list)
 			i++;
 		}
 		list = list->next;
-	}	
+	}
 	return (len);
 }
 
-void	cpy_line(t_list *list, char *newline)
+void	copy_line(t_list *list, char *newline)
 {
 	int	i;
 	int	j;
 
 	j = 0;
 	if (list == NULL)
-		return (NULL);
+		return ;
 	while (list)
 	{
 		i = 0;
 		while (list->str_buf[i])
 		{
-			if (list->str_buf[i] = '\n')
+			if (list->str_buf[i] == '\n')
 			{
 				newline[j] = '\n';
 				j++;
 				newline[j] = '\0';
-				return ; 
+				return ;
 			}
 			newline[j++] = list->str_buf[i++];
 		}
@@ -53,6 +65,7 @@ void	cpy_line(t_list *list, char *newline)
 	newline[j] = '\0';
 	return ;
 }
+
 void	polish_list(t_list **list)
 {
 	t_list	*last_node;
@@ -60,9 +73,10 @@ void	polish_list(t_list **list)
 	int		i;
 	int		j;
 	char	*buffer;
+
 	buffer = malloc(sizeof(t_list));
 	new_node = malloc(sizeof(t_list));
-	if (buffer == NULL || clean_node == NULL)
+	if (buffer == NULL || new_node == NULL)
 		return ;
 	last_node = find_node(*list);
 	i = 0;
@@ -70,20 +84,13 @@ void	polish_list(t_list **list)
 	while (last_node->str_buf[i] != '\0' && last_node->str_buf[i] != '\n')
 		i++;
 	while (last_node->str_buf[i] != '\0' && last_node->str_buf[++i])
-		buffer[j++] = last_node->str_buf[i]; 
+		buffer[j++] = last_node->str_buf[i];
 	buffer[j] = '\0';
 	new_node->str_buf = buffer;
 	new_node->next = NULL;
-	dealloc(list, new_node, buffer);	
+	dealloc(list, new_node, buffer);
 }
-t_list	*find_node(t_list *list)
-{
-	if (list == NULL)
-		return (NULL);
-	while (list->next)
-		list = list->next;
-	return (list);
-}
+
 int	newline(t_list *list)
 {
 	int	i;
@@ -92,6 +99,7 @@ int	newline(t_list *list)
 		return (0);
 	while (list)
 	{
+		printf("hier");
 		i = 0;
 		while (list->str_buf[i] && i < BUFFER_SIZE)
 		{
@@ -103,6 +111,7 @@ int	newline(t_list *list)
 	}
 	return (0);
 }
+
 void	dealloc(t_list **list, t_list *new_node, char *buffer)
 {
 	t_list	*tmp;
