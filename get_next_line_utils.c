@@ -6,11 +6,20 @@
 /*   By: jenne <jenne@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:29:20 by jpflegha          #+#    #+#             */
-/*   Updated: 2024/11/23 15:18:45 by jenne            ###   ########.fr       */
+/*   Updated: 2024/11/23 15:49:56 by jenne            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+t_list	*find_node(t_list *list)
+{
+	if (list == NULL)
+		return (NULL);
+	while (list->next)
+		list = list->next;
+	return (list);
+}
 
 int	count_newline(t_list *list)
 {
@@ -65,30 +74,7 @@ void	copy_line(t_list *list, char *newline)
 	newline[j] = '\0';
 }
 
-void	polish_list(t_list **list)
-{
-	t_list	*last_node;
-	t_list	*new_node;
-	int		i;
-	int		j;
-	char	*buffer;
 
-	buffer = malloc(BUFFER_SIZE + 1);
-	new_node = malloc(sizeof(t_list));
-	if (buffer == NULL || new_node == NULL)
-		return ;
-	last_node = find_node(*list);
-	i = 0;
-	j = 0;
-	while (last_node->str_buf[i] != '\0' && last_node->str_buf[i] != '\n')
-		i++;
-	while (last_node->str_buf[i] && last_node->str_buf[++i])
-		buffer[j++] = last_node->str_buf[i];
-	buffer[j] = '\0';
-	new_node->str_buf = buffer;
-	new_node->next = NULL;
-	dealloc(list, new_node, buffer);
-}
 
 int	newline(t_list *list)
 {
