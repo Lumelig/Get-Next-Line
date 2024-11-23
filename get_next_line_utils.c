@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpflegha <jpflegha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jenne <jenne@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:29:20 by jpflegha          #+#    #+#             */
-/*   Updated: 2024/11/22 18:35:28 by jpflegha         ###   ########.fr       */
+/*   Updated: 2024/11/23 15:18:45 by jenne            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	copy_line(t_list *list, char *newline)
 		list = list->next;
 	}
 	newline[j] = '\0';
-	return ;
 }
 
 void	polish_list(t_list **list)
@@ -74,7 +73,7 @@ void	polish_list(t_list **list)
 	int		j;
 	char	*buffer;
 
-	buffer = malloc(sizeof(t_list));
+	buffer = malloc(BUFFER_SIZE + 1);
 	new_node = malloc(sizeof(t_list));
 	if (buffer == NULL || new_node == NULL)
 		return ;
@@ -83,7 +82,7 @@ void	polish_list(t_list **list)
 	j = 0;
 	while (last_node->str_buf[i] != '\0' && last_node->str_buf[i] != '\n')
 		i++;
-	while (last_node->str_buf[i] != '\0' && last_node->str_buf[++i])
+	while (last_node->str_buf[i] && last_node->str_buf[++i])
 		buffer[j++] = last_node->str_buf[i];
 	buffer[j] = '\0';
 	new_node->str_buf = buffer;
@@ -99,7 +98,6 @@ int	newline(t_list *list)
 		return (0);
 	while (list)
 	{
-		printf("hier");
 		i = 0;
 		while (list->str_buf[i] && i < BUFFER_SIZE)
 		{

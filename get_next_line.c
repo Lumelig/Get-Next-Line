@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpflegha <jpflegha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jenne <jenne@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:29:32 by jpflegha          #+#    #+#             */
-/*   Updated: 2024/11/22 19:12:03 by jpflegha         ###   ########.fr       */
+/*   Updated: 2024/11/23 15:36:53 by jenne            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	append(t_list **list, char *buffer)
 		*list = new_node;
 	else
 		last_node->next = new_node;
-	last_node->str_buf = buffer;
+	new_node->str_buf = buffer;
 	new_node->next = NULL;
 }
 
@@ -91,15 +91,15 @@ char	*get_next_line(int fd)
 	return (newline);
 }
 
-int	main()
-{
-	int		fd;
-	int		lines;
-	char	*newline;
+// int	main()
+// {
+// 	int		fd;
+// 	int		lines;
+// 	char	*newline;
 
-	lines = 1;
-	fd = open("test.txt", O_RDONLY);
-	while (get_next_line(fd))
-		printf("%d -->  %s \n", lines++, newline);
-	return (0);
-}
+// 	lines = 1;
+// 	fd = open("test.txt", O_RDONLY);
+// 	while ((newline = get_next_line(fd)) != NULL)
+// 		printf("%d -->  %s \n", lines++, newline);
+// 	return (0);
+// }
