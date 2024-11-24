@@ -6,7 +6,7 @@
 /*   By: jenne <jenne@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:29:32 by jpflegha          #+#    #+#             */
-/*   Updated: 2024/11/23 15:49:44 by jenne            ###   ########.fr       */
+/*   Updated: 2024/11/24 13:57:21 by jenne            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,12 @@ void	polish_list(t_list **list)
 	last_node = find_node(*list);
 	i = 0;
 	j = 0;
-	while (last_node->str_buf[i] != '\0' && last_node->str_buf[i] != '\n')
+	while (last_node->str_buf[i] && last_node->str_buf[i] != '\n')
 		i++;
-	while (last_node->str_buf[i] && last_node->str_buf[++i])
-		buffer[j++] = last_node->str_buf[i];
+	if (last_node->str_buf[i] == '\n')
+        i++;
+	while (last_node->str_buf[i])
+		buffer[j++] = last_node->str_buf[i++];
 	buffer[j] = '\0';
 	new_node->str_buf = buffer;
 	new_node->next = NULL;
@@ -107,15 +109,25 @@ char	*get_next_line(int fd)
 	return (newline);
 }
 
-// int	main()
-// {
-// 	int		fd;
-// 	int		lines;
-// 	char	*newline;
+int main()
+{
+    int fd;
+    int lines;
+    char *newline;
 
-// 	lines = 1;
-// 	fd = open("test.txt", O_RDONLY);
-// 	while ((newline = get_next_line(fd)) != NULL)
-// 		printf("%d -->  %s \n", lines++, newline);
-// 	return (0);
-// }
+    lines = 1;
+    fd = open("test.txt", O_RDONLY);
+    if (fd < 0) {
+        perror("Error opening file");
+        return (1);
+    }
+
+    while ((newline = get_next_line(fd)) != NULL) // Safely assign and check
+    {
+        printf("%d --> %s\n", lines++, newline);
+        free(newline); // Free memory allocated by get_next_line
+    }
+
+    close(fd); // Close the file descriptor
+    return (0);
+}

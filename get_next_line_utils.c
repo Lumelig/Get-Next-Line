@@ -6,7 +6,7 @@
 /*   By: jenne <jenne@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:29:20 by jpflegha          #+#    #+#             */
-/*   Updated: 2024/11/23 15:49:56 by jenne            ###   ########.fr       */
+/*   Updated: 2024/11/24 13:41:57 by jenne            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	dealloc(t_list **list, t_list *new_node, char *buffer)
 		*list = tmp;
 	}
 	*list = NULL;
-	if (new_node->str_buf[0])
+	if (new_node && new_node->str_buf && new_node->str_buf[0] != '\0')
 		*list = new_node;
 	else
 	{
