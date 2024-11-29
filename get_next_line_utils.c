@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jenne <jenne@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jpflegha <jpflegha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:29:20 by jpflegha          #+#    #+#             */
-/*   Updated: 2024/11/24 13:41:57 by jenne            ###   ########.fr       */
+/*   Updated: 2024/11/29 18:10:33 by jpflegha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,11 @@ void	copy_line(t_list *list, char *newline)
 	newline[j] = '\0';
 }
 
-
-
 int	newline(t_list *list)
 {
 	int	i;
 
-	if (NULL == list)
+	if (list == NULL)
 		return (0);
 	while (list)
 	{
@@ -96,7 +94,7 @@ int	newline(t_list *list)
 	return (0);
 }
 
-void	dealloc(t_list **list, t_list *new_node, char *buffer)
+void	dealloc(t_list **list)
 {
 	t_list	*tmp;
 
@@ -108,14 +106,6 @@ void	dealloc(t_list **list, t_list *new_node, char *buffer)
 		free((*list)->str_buf);
 		free(*list);
 		*list = tmp;
-	}
-	*list = NULL;
-	if (new_node && new_node->str_buf && new_node->str_buf[0] != '\0')
-		*list = new_node;
-	else
-	{
-		free(buffer);
-		free(new_node);
 	}
 	return ;
 }

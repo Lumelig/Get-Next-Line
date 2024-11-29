@@ -1,0 +1,24 @@
+{
+	"folders": [
+		{
+			"path": "../printf"
+		},
+		{
+			"path": "../get_next_line"
+		},
+		{
+			"path": "../libft"
+		},
+		{
+			"path": "../Eval"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"ft_printf.h": "c"
+		}
+	}
+}
