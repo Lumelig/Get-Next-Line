@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpflegha <jpflegha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jenne <jenne@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:29:32 by jpflegha          #+#    #+#             */
-/*   Updated: 2024/11/29 18:23:32 by jpflegha         ###   ########.fr       */
+/*   Updated: 2024/12/02 12:24:33 by jenne            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,7 @@ void	append(t_list **list, char *buffer)
 	last_node = find_node(*list);
 	new_node = malloc(sizeof(t_list));
 	if (new_node == NULL)
-	{
-		free(buffer);
 		return ;
-	}
 	if (last_node == NULL)
 		*list = new_node;
 	else
@@ -71,9 +68,7 @@ void	create_list(t_list **list, int fd)
 {
 	int		chars;
 	char	*buffer;
-	t_list	*tmp;
 
-	tmp = NULL;
 	while (!newline(*list))
 	{
 		buffer = malloc(BUFFER_SIZE + 1);
@@ -99,6 +94,8 @@ char	*get_next_line(int fd)
 	list = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &create_list, 0) < 0)
 		return (dealloc(&list), remainder[0] = 0, NULL);
+	if (remainder[0] != '\0')
+		append(&list, remainder);
 	create_list(&list, fd);
 	if (list == NULL)
 		return (NULL);
