@@ -6,7 +6,7 @@
 /*   By: jenne <jenne@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:29:32 by jpflegha          #+#    #+#             */
-/*   Updated: 2024/12/02 12:24:33 by jenne            ###   ########.fr       */
+/*   Updated: 2024/12/03 13:52:53 by jenne            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,27 @@ void	append(t_list **list, char *buffer)
 {
 	t_list	*new_node;
 	t_list	*last_node;
+	int		i;
 
+	i = 0;
 	last_node = find_node(*list);
 	new_node = malloc(sizeof(t_list));
 	if (new_node == NULL)
 		return ;
 	if (last_node == NULL)
+	{
 		*list = new_node;
+		while (buffer[i] != '\0')
+		{
+			new_node->str_buf[i] = buffer[i];
+			i++;
+		}
+		new_node->str_buf[i] = '\0';
+		
+	}	
 	else
 		last_node->next = new_node;
-	new_node->str_buf = buffer;
+		new_node->str_buf = buffer;
 	new_node->next = NULL;
 }
 
