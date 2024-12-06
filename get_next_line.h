@@ -6,7 +6,7 @@
 /*   By: jpflegha <jpflegha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:29:43 by jpflegha          #+#    #+#             */
-/*   Updated: 2024/11/29 17:55:34 by jpflegha         ###   ########.fr       */
+/*   Updated: 2024/12/06 16:14:35 by jpflegha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,30 +22,20 @@
 #  define BUFFER_SIZE 42
 # endif
 
-typedef struct s_list
-{
-	char			*str_buf;
-	struct s_list	*next;
-}	t_list;
+char	*ft_strjoin(char *s1, char *s2);
 
-void	dealloc(t_list **list);
+void	free_and_null(char **ptr);
+
+char	*read_file(int fd, char *remainder);
+
+char	*extract_line(char *remainder);
+
+char	*update_remainder(char *remainder);
 
 char	*get_next_line(int fd);
 
-void	creat_list(t_list **list, int fd);
+size_t	ft_strlen(const char *str);
 
-void	append(t_list **list, char *buffer);
-
-char	*get_newline(t_list *list);
-
-int		newline(t_list *list);
-
-t_list	*find_node(t_list *list);
-
-void	polish_list(t_list **list, char *remainder);
-
-void	copy_line(t_list *list, char *newline);
-
-int		count_newline(t_list *list);
+char	*ft_strchr(const char *s, int c);
 
 #endif

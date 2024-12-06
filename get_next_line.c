@@ -3,116 +3,111 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jenne <jenne@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jpflegha <jpflegha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:29:32 by jpflegha          #+#    #+#             */
-/*   Updated: 2024/12/03 13:52:53 by jenne            ###   ########.fr       */
+/*   Updated: 2024/12/06 16:13:53 by jpflegha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	polish_list(t_list **list, char *remainder)
+void	free_and_null(char **ptr)
 {
-	t_list	*last_node;
-	int		i;
-	int		j;
-
-	if (list == NULL || *list == NULL)
-		return ;
-	last_node = find_node((i = 0, j = 0, *list));
-	while (last_node->str_buf[i] && last_node->str_buf[i] != '\n')
-		i++;
-	if (last_node->str_buf[i] == '\n')
-		i++;
-	while (last_node->str_buf[i])
-		remainder[j++] = last_node->str_buf[i++];
-	remainder[j] = '\0';
-	dealloc(list);
-}
-
-char	*get_newline(t_list *list)
-{
-	int		len;
-	char	*newline;
-
-	len = 0;
-	if (list == NULL)
-		return (NULL);
-	len = count_newline(list);
-	newline = malloc(len + 1);
-	if (newline == NULL)
-		return (NULL);
-	copy_line(list, newline);
-	return (newline);
-}
-
-void	append(t_list **list, char *buffer)
-{
-	t_list	*new_node;
-	t_list	*last_node;
-	int		i;
-
-	i = 0;
-	last_node = find_node(*list);
-	new_node = malloc(sizeof(t_list));
-	if (new_node == NULL)
-		return ;
-	if (last_node == NULL)
+	if (ptr && *ptr)
 	{
-		*list = new_node;
-		while (buffer[i] != '\0')
-		{
-			new_node->str_buf[i] = buffer[i];
-			i++;
-		}
-		new_node->str_buf[i] = '\0';
-		
-	}	
-	else
-		last_node->next = new_node;
-		new_node->str_buf = buffer;
-	new_node->next = NULL;
-}
-
-void	create_list(t_list **list, int fd)
-{
-	int		chars;
-	char	*buffer;
-
-	while (!newline(*list))
-	{
-		buffer = malloc(BUFFER_SIZE + 1);
-		if (buffer == NULL)
-			return ;
-		chars = read(fd, buffer, BUFFER_SIZE);
-		if (chars <= 0)
-		{
-			free(buffer);
-			return ;
-		}
-		buffer[chars] = '\0';
-		append(list, buffer);
+		free(*ptr);
+		*ptr = NULL;
 	}
 }
 
-char	*get_next_line(int fd)
+char	*ft_strjoin(char *s1, char *s2)
 {
-	t_list		*list;
-	char		*newline;
-	static char	remainder[BUFFER_SIZE + 1];
+	size_t	i;
+	size_t	j;
+	char	*str;
 
-	list = NULL;
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &create_list, 0) < 0)
-		return (dealloc(&list), remainder[0] = 0, NULL);
-	if (remainder[0] != '\0')
-		append(&list, remainder);
-	create_list(&list, fd);
-	if (list == NULL)
+	if (!s2)
+		return (s1);
+	if (!s1)
+	{
+		s1 = malloc(1);
+		if (!s1)
+			return (NULL);
+		s1[0] = '\0';
+	}
+	str = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!str)
+	{
+		free_and_null(&s1);
 		return (NULL);
-	newline = get_newline(list);
-	polish_list(&list, remainder);
-	return (newline);
+	}
+	i = -1;
+	j = 0;
+	while (s1[++i])
+		str[i] = s1[i];
+	while (s2[j])
+		str[i++] = s2[j++];
+	str[i] = '\0';
+	free_and_null(&s1);
+	return (str);
+}
+
+char	*read_file(int fd, char *remainder)
+{
+	char	*buffer;
+	int		bytes_read;
+
+	buffer = malloc(BUFFER_SIZE + 1);
+	if (!buffer)
+		return (NULL);
+	bytes_read = 1;
+	while (bytes_read > 0)
+	{
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		if (bytes_read == -1)
+		{
+			free_and_null(&buffer);
+			free_and_null(&remainder);
+			return (NULL);
+		}
+		if (bytes_read == 0)
+			break;
+		buffer[bytes_read] = '\0';
+		remainder = ft_strjoin(remainder, buffer);
+		if (!remainder || ft_strchr(remainder, '\n'))
+			break;
+	}
+	free_and_null(&buffer);
+	return (remainder);
+}
+
+char	*extract_line(char *remainder)
+{
+	char	*line;
+	int		i;
+
+	if (!remainder || !remainder[0])
+		return (NULL);
+	i = 0;
+	while (remainder[i] && remainder[i] != '\n')
+		i++;
+	line = malloc(i + 2);
+	if (!line)
+		return (NULL);
+	i = 0;
+	while (remainder[i] && remainder[i] != '\n')
+	{
+		line[i] = remainder[i];
+		i++;
+	}
+	if (remainder[i] == '\n')
+	{
+		line[i] = '\n';
+		i++;
+	}
+	line[i] = '\0';
+	return (line);
 }
 
 // int	main(void)

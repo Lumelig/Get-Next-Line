@@ -6,106 +6,38 @@
 /*   By: jpflegha <jpflegha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:29:20 by jpflegha          #+#    #+#             */
-/*   Updated: 2024/11/29 18:10:33 by jpflegha         ###   ########.fr       */
+/*   Updated: 2024/12/06 16:14:13 by jpflegha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-t_list	*find_node(t_list *list)
+char	*ft_strchr(const char *s, int c)
 {
-	if (list == NULL)
-		return (NULL);
-	while (list->next)
-		list = list->next;
-	return (list);
-}
+	unsigned char	cc;
+	char			*cs;
 
-int	count_newline(t_list *list)
-{
-	int	i;
-	int	len;
-
-	len = 0;
-	if (list == NULL)
-		return (0);
-	while (list)
+	cs = (char *)s;
+	cc = (char)c;
+	while (*cs)
 	{
-		i = 0;
-		while (list->str_buf[i])
-		{
-			if (list->str_buf[i] == '\n')
-			{
-				len++;
-				return (len);
-			}
-			len++;
-			i++;
-		}
-		list = list->next;
+		if (*cs == cc)
+			return (cs);
+		cs++;
 	}
-	return (len);
+	if (cc == '\0')
+		return (cs);
+	return (NULL);
 }
-
-void	copy_line(t_list *list, char *newline)
-{
-	int	i;
-	int	j;
-
-	j = 0;
-	if (list == NULL)
-		return ;
-	while (list)
-	{
-		i = 0;
-		while (list->str_buf[i])
-		{
-			if (list->str_buf[i] == '\n')
-			{
-				newline[j] = '\n';
-				j++;
-				newline[j] = '\0';
-				return ;
-			}
-			newline[j++] = list->str_buf[i++];
-		}
-		list = list->next;
-	}
-	newline[j] = '\0';
-}
-
-int	newline(t_list *list)
+size_t	ft_strlen(const char *str)
 {
 	int	i;
 
-	if (list == NULL)
-		return (0);
-	while (list)
+	i = 0;
+	while (*str)
 	{
-		i = 0;
-		while (list->str_buf[i] && i < BUFFER_SIZE)
-		{
-			if (list->str_buf[i] == '\n')
-				return (1);
-			++i;
-		}
-		list = list->next;
+		str++;
+		i++;
 	}
-	return (0);
-}
-
-void	dealloc(t_list **list)
-{
-	t_list	*tmp;
-
-	if (list == NULL)
-		return ;
-	while (*list)
-	{
-		tmp = (*list)->next;
-		free((*list)->str_buf);
-		free(*list);
-		*list = tmp;
-	}
-	return ;
+	return (i);
 }
