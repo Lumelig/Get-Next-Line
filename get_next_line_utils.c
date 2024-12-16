@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpflegha <jpflegha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jenne <jenne@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:29:20 by jpflegha          #+#    #+#             */
-/*   Updated: 2024/12/06 17:13:36 by jpflegha         ###   ########.fr       */
+/*   Updated: 2024/12/16 12:35:17 by jenne            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,46 @@ void	free_and_null(char **ptr)
 		free(*ptr);
 		*ptr = NULL;
 	}
+}
+void	*ft_memcpy(void *dst, const void *src, size_t n)
+{
+	char		*dest_ptr;
+	const char	*src_ptr;
+	size_t		a;
+
+	dest_ptr = dst;
+	src_ptr = src;
+	a = 0;
+	if (dst == NULL && src == NULL)
+		return (NULL);
+	while (a < n)
+	{
+		dest_ptr[a] = src_ptr[a];
+		a++;
+	}
+	return (dst);
+}
+
+char	*ft_strncat(char *dest, const char *src, size_t n)
+{
+	size_t	dest_len;
+	size_t	i;
+
+	// Find end of destination string
+	dest_len = 0;
+	while (dest[dest_len] != '\0')
+		dest_len++;
+
+	// Copy characters from source
+	i = 0;
+	while (i < n && src[i] != '\0')
+	{
+		dest[dest_len + i] = src[i];
+		i++;
+	}
+
+	// Null-terminate the result
+	dest[dest_len + i] = '\0';
+
+	return (dest);
 }

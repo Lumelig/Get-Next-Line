@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jpflegha <jpflegha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jenne <jenne@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:29:43 by jpflegha          #+#    #+#             */
-/*   Updated: 2024/12/06 16:14:35 by jpflegha         ###   ########.fr       */
+/*   Updated: 2024/12/16 12:40:04 by jenne            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,21 @@
 #  define BUFFER_SIZE 42
 # endif
 
-char	*ft_strjoin(char *s1, char *s2);
 
 void	free_and_null(char **ptr);
 
-char	*read_file(int fd, char *remainder);
-
 char	*extract_line(char *remainder);
 
-char	*update_remainder(char *remainder);
+void	update_remainder(char *remainder);
 
 char	*get_next_line(int fd);
 
 size_t	ft_strlen(const char *str);
 
 char	*ft_strchr(const char *s, int c);
+
+void	*ft_memcpy(void *dst, const void *src, size_t n);
+
+char	*ft_strncat(char *dest, const char *src, size_t n);
 
 #endif
